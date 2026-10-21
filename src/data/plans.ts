@@ -103,7 +103,7 @@ export const PLANS: Plan[] = [
     weeks: [
       { title: 'Weeks 1–2', focus: 'Full PLL.', daily: ['2 new PLLs per day', 'Trainer review of all known PLLs', '20 full solves'], tasks: [task('Lesson: Full PLL', '#/learn/a-pll'), task('A-perms, J-perms'), task('T, F, R, V, Y perms'), task('N, E perms'), task('Ga, Gb, Gc, Gd perms'), task('Mark all 21 PLLs as learned', '#/algs/PLL')], checkpoint: 'Every PLL in one look.' },
       { title: 'Weeks 3–4', focus: 'F2L efficiency.', daily: ['10 min slow solves (no pauses)', '10 min F2L cases', '20 full solves'], tasks: [task('Lesson: F2L mastery', '#/learn/a-f2l'), task('Learn the 24 "both in top" F2L cases', '#/algs/F2L'), task('Learn the edge/corner-in-slot cases'), task('Lesson: Lookahead', '#/learn/a-lookahead')], checkpoint: 'F2L under 20 s on average.' },
-      { title: 'Weeks 5–6', focus: 'Finger tricks + first OLLs.', daily: ['5 min trigger drills', '3 new OLLs per day', 'Full solves'], tasks: [task('Lesson: Finger tricks', '#/learn/a-fingertricks'), task('Learn OLL 33, 37, 43–48 (easy shapes)'), task('Learn lightning & square OLLs'), task('ao50 under 30 s', '#/timer')], checkpoint: 'ao12 under 30 seconds.' },
+      { title: 'Weeks 5–6', focus: 'Finger tricks + first OLLs.', daily: ['5 min trigger drills', '3 new OLLs per day', 'Full solves'], tasks: [task('Lesson: Finger tricks', '#/learn/a-fingertricks'), task('Learn OLL 33, 37, 43–46 (easy shapes)'), task('Learn lightning & square OLLs'), task('ao50 under 30 s', '#/timer')], checkpoint: 'ao12 under 30 seconds.' },
     ],
   },
   {

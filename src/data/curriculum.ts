@@ -370,7 +370,7 @@ export const TRACKS: Track[] = [
         sections: [
           { t: 'p', html: 'Every F2L situation reduces to one of 41 cases for a given slot. Knowing an efficient solution to each removes "thinking time" and lets you look ahead.' },
           { t: 'list', items: ['<b>Both in the top layer</b> (24 cases): the most common. Learn these first.', '<b>Edge in slot</b> (6) and <b>corner in slot</b> (6): pull the piece out efficiently.', '<b>Both in slot</b> (5): including the "pair in slot but wrong" cases.'] },
-          { t: 'p', html: 'The <a href="#/algs/F2L">F2L library</a> lists a short, move-optimal &lt;R, U, F&gt; solution to every case for the front-right slot. Mirror them for the front-left slot (swap R↔L\', F stays F\' etc.), or turn the cube with y/y\'.' },
+          { t: 'p', html: 'The <a href="#/algs/F2L">F2L library</a> lists a short, move-optimal &lt;R, U, F&gt; solution to every case for the front-right slot. Mirror them for the front-left slot by flipping every move left-to-right (R→L\', R\'→L, U→U\', U\'→U, F→F\', F\'→F), or turn the cube with y/y\'.' },
           { t: 'cube', caption: 'Both pieces on top but not paired: watch how the pair is built first, then inserted.', caseOf: "R U2 R' U' R U R'", play: "R U2 R' U' R U R'", mask: 'f2l' },
           { t: 'h', text: 'Advanced tricks' },
           { t: 'list', items: ['<b>Use empty slots</b>: an unsolved back slot gives you extra free moves for pairing.', '<b>Avoid rotations</b>: solve back slots with R/L/U moves rather than y2.', '<b>Keyhole</b>: insert a corner or edge through an empty slot when its partner is already solved.', '<b>Multi-slotting</b>: while inserting one pair, set up the next.'] },
@@ -383,7 +383,7 @@ export const TRACKS: Track[] = [
         summary: 'A learning order for 57 OLLs that pays off fast.',
         sections: [
           { t: 'p', html: 'Full OLL saves one look per solve. It is a big project, so be smart about order:' },
-          { t: 'list', ordered: true, items: ['The 7 corner cases you already know (OCLL, cross already made).', 'Easy "T, P, C, W, fish" shapes that reuse familiar triggers (OLL 33, 37, 43–48).', 'Lightning and square shapes (OLL 5–8, 11, 12, 39, 40).', 'Line and small-L cases (OLL 47–56).', 'Dot cases (OLL 1–4, 17–20) last: they are rarer and longest.'] },
+          { t: 'list', ordered: true, items: ['The 7 corner cases you already know (OCLL, cross already made).', 'Easy "T, P, C, W, fish" shapes that reuse familiar triggers (OLL 33, 37, 43–46).', 'Lightning and square shapes (OLL 5–8, 11, 12, 39, 40).', 'Line and small-L cases (OLL 47–56).', 'Dot cases (OLL 1–4, 17–20) last: they are rarer and longest.'] },
           { t: 'tip', html: 'Learn 2–3 new OLLs per day. Each day: drill yesterday\'s in the Trainer, then add new ones. 57 cases ≈ 4 weeks.' },
           { t: 'cube', caption: 'OLL 45 (the T) is just your edge algorithm: you already know it!', caseOf: "F R U R' U' F'", play: "F R U R' U' F'" },
           { t: 'p', html: 'Browse them in the <a href="#/algs/OLL">OLL library</a>.' },

@@ -132,7 +132,7 @@ export function timerView(root: HTMLElement) {
   };
 
   const keydown = (e: KeyboardEvent) => {
-    if (isTyping(e, 'input, select, textarea, button')) return;
+    if (isTyping(e, 'textarea, input[type=text], input[type=search]')) return;
     if (phase === 'running') {
       e.preventDefault();
       press();
@@ -162,12 +162,14 @@ export function timerView(root: HTMLElement) {
   });
   pad.addEventListener('pointerup', () => release());
 
-  $('#new-scr').addEventListener('click', () => {
+  $('#new-scr').addEventListener('click', (e) => {
+    (e.currentTarget as HTMLElement).blur();
     scramble = randomScramble(20);
     renderScramble();
   });
   $<HTMLInputElement>('#insp').addEventListener('change', (e) => {
     data.settings.inspection = (e.target as HTMLInputElement).checked;
+    (e.target as HTMLElement).blur();
     save();
   });
   $('#clear').addEventListener('click', () => {
@@ -182,6 +184,7 @@ export function timerView(root: HTMLElement) {
     if (!b || !li) return;
     const i = +li.dataset.i!;
     const p = b.dataset.p;
+    b.blur();
     if (p === 'del') data.solves.splice(i, 1);
     else if (p === '+2' || p === 'DNF') data.solves[i].penalty = data.solves[i].penalty === p ? undefined : p;
     save();

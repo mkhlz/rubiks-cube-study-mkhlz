@@ -121,11 +121,13 @@ export function trainerView(root: HTMLElement) {
   });
   root.querySelector('#set')!.addEventListener('change', (e) => {
     setKey = (e.target as HTMLSelectElement).value;
+    (e.target as HTMLElement).blur();
     sessionStorageSet('trainer-set', setKey);
     show();
   });
   root.querySelector('#pool')!.addEventListener('change', (e) => {
     pool = (e.target as HTMLSelectElement).value as Pool;
+    (e.target as HTMLElement).blur();
     show();
   });
   const onKey = (e: KeyboardEvent) => {
