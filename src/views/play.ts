@@ -3,7 +3,8 @@ import { cleanAlg, invertAlg, invertToken, isSolved } from '../cube/engine';
 import { randomScramble } from '../cube/scramble';
 import { netDiagram } from '../cube/diagram';
 import { data, save } from '../store';
-import { esc, track , isTyping } from '../ui';
+import { esc, track, isTyping } from '../ui';
+import { mountGuide } from './guide';
 
 const FACE_MOVES = ['U', "U'", 'U2', 'D', "D'", 'D2', 'R', "R'", 'R2', 'L', "L'", 'L2', 'F', "F'", 'F2', 'B', "B'", 'B2'];
 const OTHER_MOVES = ['M', "M'", 'E', "E'", 'S', "S'", 'r', "r'", 'u', "u'", 'x', "x'", 'y', "y'", 'z', "z'"];
@@ -25,6 +26,7 @@ export function playView(root: HTMLElement) {
       <label class="speed">Animation speed <input type="range" id="speed" min="40" max="500" step="20" value="${520 - data.settings.speed}"></label>
     </div>
     <aside class="play-side">
+      <div class="panel solver-panel" id="guide"></div>
       <div class="panel">
         <h3>Apply an algorithm</h3>
         <form id="alg-form" class="alg-form">
@@ -61,13 +63,16 @@ export function playView(root: HTMLElement) {
   const view = track(
     new CubeView(stage, {
       speed: data.settings.speed,
-      onMove: (m) => {
+      onMove: (m, source) => {
+        guide?.notify(m, source);
         if (undoing) return;
         history.push(m);
         refresh();
       },
     }),
   );
+
+  const guide = mountGuide(root.querySelector<HTMLElement>('#guide')!, view, { onChange: () => refresh() });
 
   const refresh = () => {
     const solved = isSolved(view.state);
@@ -82,6 +87,7 @@ export function playView(root: HTMLElement) {
   refresh();
 
   const doScramble = () => {
+    guide.exit();
     scramble = randomScramble(20);
     history = [];
     undoing = true;
@@ -92,6 +98,7 @@ export function playView(root: HTMLElement) {
   };
 
   const undo = async () => {
+    if (guide.active) guide.exit();
     const last = history.pop();
     if (!last || view.busy) {
       if (last) history.push(last);
@@ -105,6 +112,7 @@ export function playView(root: HTMLElement) {
 
   const rewind = async () => {
     if (!history.length || view.busy) return;
+    guide.exit();
     const inv = invertAlg(history.join(' '));
     history = [];
     undoing = true;
@@ -123,6 +131,7 @@ export function playView(root: HTMLElement) {
     if (a === 'undo') undo();
     if (a === 'rewind') rewind();
     if (a === 'reset') {
+      guide.exit();
       history = [];
       scramble = '';
       undoing = true;
@@ -140,6 +149,7 @@ export function playView(root: HTMLElement) {
         history = [];
         scramble = `case of ${alg}`;
         if (view.busy) return;
+        guide.exit();
         undoing = true;
         view
           .rewind()

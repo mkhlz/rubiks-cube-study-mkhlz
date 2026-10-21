@@ -9,7 +9,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)
 ![Three.js](https://img.shields.io/badge/Three.js-r186-000?logo=three.js)
 ![Vite](https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-145%20passing-22c55e)
+![Tests](https://img.shields.io/badge/tests-152%20passing-22c55e)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 </div>
@@ -22,6 +22,7 @@ CubeCraft Academy is a free, open-source study app for the 3x3 Rubik's Cube. It 
 |---|---|
 | 🎓 **28-lesson course** | Five tracks: Foundations → Beginner method → 4-look CFOP → Advanced CFOP → Pro. Each lesson has live 3D demos you can step through, quizzes and tips. |
 | 🧊 **Playable 3D cube** | Drag a layer to turn it, orbit with the mouse or touch, use the keyboard (`R U R' U'` = <kbd>r</kbd> <kbd>u</kbd> <kbd>⇧R</kbd> <kbd>⇧U</kbd>), scramble, undo, rewind, type any algorithm, or load "the case this algorithm solves". Supports face, slice (M E S), wide (r, Rw…) moves and rotations (x y z). |
+| 🧭 **Guided auto-solve** | In the Playground, "Guide me" solves *your* cube with the beginner method from the course: each step is explained in plain English, the pieces involved are highlighted, and you can watch it, step back, auto-solve, or do the moves yourself while it follows along. |
 | 📚 **142 algorithms** | Beginner (7), 2-look OLL (10), 2-look PLL (6), all **41 F2L**, all **57 OLL** and all **21 PLL** cases, with recognition tips and auto-generated case diagrams. Track each as new / learning / learned. |
 | 🧠 **Spaced-repetition trainer** | Flashcards for any set: see a case, recall, reveal (with a 3D replay), grade Again / Hard / Good / Easy. Leitner boxes bring weak cases back sooner. |
 | ⏱️ **Speedsolving timer** | Hold-to-arm spacebar or touch timer, optional 15 s WCA-style inspection (with +2 / DNF), scrambles with an unfolded preview, best, ao5, ao12, ao100 and best ao5. |

@@ -529,3 +529,30 @@ code.alg, .alg-text, .alg-line, .history, .move-btn, .scramble, .alg-alt, #list 
 .hero-cube .move-hud { top: 18px; left: 18px; font-size: 26px; }
 @media (prefers-reduced-motion: reduce) { .move-hud.pop { animation: none; } }
 .hero-cube { position: relative; overflow: hidden; }
+
+/* ---------- guided solve ---------- */
+.solver-panel { background: color-mix(in srgb, var(--hl) 14%, var(--card)); }
+.guide-head { display: flex; justify-content: space-between; align-items: center; }
+.guide-head h3 { margin: 0; }
+.stage-dots { list-style: none; display: flex; gap: 6px; padding: 0; margin: 12px 0; }
+.stage-dots li { flex: 1; }
+.stage-dots span { display: grid; place-items: center; height: 24px; border: 2px solid var(--line); border-radius: 7px; font: 600 11px var(--mono); background: var(--card); color: var(--muted); }
+.stage-dots li.done span { background: var(--ok); color: #fff; }
+.stage-dots li.now span { background: var(--hl); color: #1d1b16; transform: translateY(-2px); box-shadow: 2px 2px 0 var(--line); }
+.guide-stage h4 { margin: 4px 0 2px; font-size: 17px; }
+.guide-stage .hint { margin: 0 0 10px; font-size: 13px; }
+.guide-step { background: var(--card); border: 2px solid var(--line); border-radius: 10px; padding: 12px; margin-bottom: 10px; }
+.guide-step p { margin: 0 0 8px; font-size: 15px; line-height: 1.5; }
+.guide-step code { font-family: var(--mono); font-size: 0.85em; background: var(--bg-2); border: 1px solid var(--line); border-radius: 5px; padding: 0 4px; white-space: nowrap; }
+.guide-step.stale { border-style: dashed; }
+.guide-step .warn { color: var(--warn); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0 0; }
+.guide-moves { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font: 15px var(--mono); }
+.guide-moves .part { display: inline-flex; flex-wrap: wrap; gap: 2px 6px; padding: 3px 8px; border: 1.5px solid var(--line); border-radius: 7px; background: var(--bg-2); }
+.guide-moves .part-sep { font: 11px var(--sans); color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+.guide-moves .mv.next { background: var(--hl); color: #1d1b16; outline: 2px solid var(--line); }
+.guide-moves .mv.done { color: var(--muted); text-decoration: line-through; text-decoration-thickness: 1px; }
+.guide-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.btn[disabled] { opacity: 0.45; pointer-events: none; }
+.hint.small { font-size: 12.5px; margin: 6px 0 0; }
+.guide-moves .reps { font: 700 13px var(--sans); color: var(--brand); margin-left: 4px; }
+.guide-moves .reps small { font-weight: 500; color: var(--muted); }

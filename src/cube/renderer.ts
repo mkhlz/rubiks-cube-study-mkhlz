@@ -28,6 +28,7 @@ import {
   Move,
   parseAlg,
   parseMove,
+  simplifyMoves,
   solvedState,
   Vec3,
 } from './engine';
@@ -60,20 +61,7 @@ export function moveFor(axis: Axis, layer: number, positive: boolean): string {
   return positive ? m : invert(m);
 }
 
-/** Remove adjacent cancelling / merging turns, e.g. "R R'" or "U U" -> "U2". */
-export function simplifyMoves(tokens: string[]): string[] {
-  const amt = (t: string) => (t.endsWith('2') ? 2 : t.endsWith("'") ? 3 : 1);
-  const out: string[] = [];
-  for (const t of tokens) {
-    const last = out[out.length - 1];
-    if (last && last[0] === t[0]) {
-      out.pop();
-      const n = (amt(last) + amt(t)) % 4;
-      if (n) out.push(t[0] + ['', '', '2', "'"][n]);
-    } else out.push(t);
-  }
-  return out;
-}
+export { simplifyMoves };
 
 // ---------- shared resources (one set for every view on the page) ----------
 
