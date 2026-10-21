@@ -105,11 +105,20 @@ export function cubePlayer(host: HTMLElement, o: PlayerOptions) {
   };
   reset();
 
+  /** Undo everything played since the start, animated. */
+  const rewind = async (maxMs?: number) => {
+    playing = false;
+    await view.settle();
+    await view.rewind(maxMs);
+    idx = 0;
+    highlight();
+  };
+
   const stepOnce = async () => {
     if (idx >= moves.length) return false;
     const m = moves[idx];
     highlight();
-    await view.turn(m, 'auto');
+    await view.turnMove(m, 'auto');
     idx++;
     highlight();
     return true;
@@ -118,17 +127,17 @@ export function cubePlayer(host: HTMLElement, o: PlayerOptions) {
   bar.addEventListener('click', async (e) => {
     const a = (e.target as HTMLElement).closest('button')?.dataset.a;
     if (!a) return;
-    if (a === 'reset') reset();
+    if (a === 'reset') rewind();
     if (a === 'view') view.resetView();
     if (a === 'step' && !view.busy) {
-      if (idx >= moves.length) reset();
+      if (idx >= moves.length) await rewind(1200);
       playing = true;
       await stepOnce();
       playing = false;
       highlight();
     }
     if (a === 'play' && !playing) {
-      if (idx >= moves.length) reset();
+      if (idx >= moves.length) await rewind(1200);
       playing = true;
       while (playing && (await stepOnce()));
       playing = false;

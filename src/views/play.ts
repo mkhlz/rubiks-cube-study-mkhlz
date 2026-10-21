@@ -84,7 +84,6 @@ export function playView(root: HTMLElement) {
   const doScramble = () => {
     scramble = randomScramble(20);
     history = [];
-    view.reset();
     undoing = true;
     view.play(scramble).then(() => {
       undoing = false;
@@ -99,7 +98,7 @@ export function playView(root: HTMLElement) {
       return;
     }
     undoing = true;
-    await view.turn(invertToken(last), 'auto');
+    await view.turnMove(invertToken(last), 'auto');
     undoing = false;
     refresh();
   };
@@ -119,15 +118,18 @@ export function playView(root: HTMLElement) {
     if (!b) return;
     const a = b.dataset.a;
     const m = b.dataset.m;
-    if (m) view.turn(m);
+    if (m) view.turnMove(m);
     if (a === 'scramble') doScramble();
     if (a === 'undo') undo();
     if (a === 'rewind') rewind();
     if (a === 'reset') {
       history = [];
       scramble = '';
-      view.reset();
-      refresh();
+      undoing = true;
+      view.settle().then(() => view.rewind()).then(() => {
+        undoing = false;
+        refresh();
+      });
     }
     if (a === 'view') view.resetView();
     if (a === 'setup') {
@@ -137,12 +139,15 @@ export function playView(root: HTMLElement) {
         if (!alg) return;
         history = [];
         scramble = `case of ${alg}`;
-        view.reset();
+        if (view.busy) return;
         undoing = true;
-        view.play(invertAlg(alg)).then(() => {
-          undoing = false;
-          refresh();
-        });
+        view
+          .rewind()
+          .then(() => view.play(invertAlg(alg)))
+          .then(() => {
+            undoing = false;
+            refresh();
+          });
         setError('');
       } catch (err) {
         setError((err as Error).message);
@@ -186,7 +191,7 @@ export function playView(root: HTMLElement) {
     const m = keyToMove(e);
     if (m) {
       e.preventDefault();
-      view.turn(m);
+      view.turnMove(m);
     }
   };
   window.addEventListener('keydown', onKey);

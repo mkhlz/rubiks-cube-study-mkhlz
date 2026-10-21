@@ -62,8 +62,8 @@ function renderSection(host: HTMLElement, s: Section, lessonId: string, i: numbe
       buttons.addEventListener('click', (e) => {
         const m = (e.target as HTMLElement).closest('button')?.dataset.m;
         if (!m) return;
-        if (m === 'reset') view.reset();
-        else if (!view.busy) view.turn(m);
+        if (m === 'reset') view.settle().then(() => view.rewind());
+        else if (!view.busy) view.turnMove(m);
       });
       break;
     }

@@ -65,16 +65,16 @@ export function homeView(root: HTMLElement) {
   </section>`;
 
   const host = root.querySelector<HTMLElement>('#hero-cube')!;
-  const view = track(new CubeView(host, { interactive: false, speed: 160 }));
+  const view = track(new CubeView(host, { interactive: false, speed: 520 }));
   let alive = true;
   const loop = async () => {
     while (alive) {
-      const s = randomScramble(12);
+      const s = randomScramble(8);
       await view.play(s);
-      await wait(700);
+      await wait(1600);
       if (!alive) break;
       await view.play(invertAlg(s));
-      await wait(1400);
+      await wait(2600);
     }
   };
   loop();
