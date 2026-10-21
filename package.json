@@ -1,0 +1,30 @@
+{
+  "name": "rubiks-cube-study-mkhlz",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "CubeCraft Academy - learn the Rubik's Cube from zero to speedcuber with an interactive 3D cube, lessons, algorithm trainer, timer and study plans.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "@types/three": "^0.186.0",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9.3",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  },
+  "dependencies": {
+    "three": "^0.186.1"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mkhlz/rubiks-cube-study-mkhlz.git"
+  },
+  "homepage": "https://mkhlz.github.io/rubiks-cube-study-mkhlz/"
+}
