@@ -13,7 +13,9 @@
   --shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 8px 24px rgba(16, 24, 40, 0.06);
   --radius: 14px;
   --stage: radial-gradient(circle at 50% 40%, #ffffff 0%, #e7eaf3 75%);
-  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --display: 'Fraunces Variable', 'Iowan Old Style', Georgia, serif;
+  --sans: 'Bricolage Grotesque Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Martian Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
@@ -47,7 +49,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font: 16px/1.6 Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  font: 16px/1.6 var(--sans);
   overflow-x: hidden;
 }
 a { color: var(--brand); text-decoration: none; }
@@ -110,7 +112,7 @@ code.alg, .alg-text {
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
   padding: 9px 16px; border-radius: 10px; border: 1px solid transparent;
-  background: var(--brand); color: #fff; font: 600 14px Inter, system-ui, sans-serif;
+  background: var(--brand); color: #fff; font: 600 14px var(--sans);
   cursor: pointer; text-decoration: none; transition: transform 0.05s, background 0.15s, box-shadow 0.15s;
 }
 .btn:hover { text-decoration: none; filter: brightness(1.07); }
@@ -224,7 +226,7 @@ code.alg, .alg-text {
 .move-btn { font: 600 15px var(--mono); padding: 8px 0; border-radius: 8px; border: 1px solid var(--line); background: var(--bg-2); color: var(--text); cursor: pointer; }
 .move-btn:hover { border-color: var(--brand); color: var(--brand); }
 .move-btn:active { transform: translateY(1px); }
-.move-btn.reset { font-family: Inter, system-ui, sans-serif; font-size: 13px; }
+.move-btn.reset { font-family: var(--sans); font-size: 13px; }
 
 /* ---------- playground ---------- */
 .play-layout { display: grid; grid-template-columns: 1fr 360px; gap: 20px; align-items: start; }
@@ -237,7 +239,7 @@ code.alg, .alg-text {
 .alg-form input, .filters input, .filters select, .trainer-controls select {
   flex: 1; min-width: 0; font: 15px var(--mono); padding: 8px 10px; border-radius: 9px; border: 1px solid var(--line); background: var(--bg); color: var(--text);
 }
-.filters select, .trainer-controls select { font-family: Inter, system-ui, sans-serif; flex: none; }
+.filters select, .trainer-controls select { font-family: var(--sans); flex: none; }
 .history { font-family: var(--mono); font-size: 14px; display: flex; flex-wrap: wrap; gap: 2px 8px; margin: 8px 0; max-height: 120px; overflow: auto; }
 details summary { cursor: pointer; color: var(--muted); font-size: 14px; margin-top: 10px; }
 .net { display: block; margin-top: 8px; max-width: 100%; }
@@ -272,7 +274,7 @@ details summary { cursor: pointer; color: var(--muted); font-size: 14px; margin-
 .alg-alt { font: 12px var(--mono); color: var(--muted); }
 .alg-tip { font-size: 13px; color: var(--muted); margin: 0; }
 .alg-actions { display: flex; gap: 8px; margin-top: auto; }
-.status-btn { font: 600 12px Inter, system-ui, sans-serif; padding: 5px 10px; border-radius: 99px; cursor: pointer; border: 1px solid var(--line); background: var(--bg-2); color: var(--muted); }
+.status-btn { font: 600 12px var(--sans); padding: 5px 10px; border-radius: 99px; cursor: pointer; border: 1px solid var(--line); background: var(--bg-2); color: var(--muted); }
 .status-learning .status-btn { background: color-mix(in srgb, var(--warn) 15%, var(--card)); color: var(--warn); border-color: transparent; }
 .status-learned .status-btn { background: color-mix(in srgb, var(--ok) 15%, var(--card)); color: var(--ok); border-color: transparent; }
 @media (max-width: 420px) { .alg-grid { grid-template-columns: 1fr; } .alg-card .diagram { width: 84px; height: 84px; } }
@@ -480,3 +482,25 @@ code.alg, .alg-text { border: 1.5px solid var(--line); background: var(--bg-2); 
   .marquee-track { animation: none; }
   .scribble path { animation: none; stroke-dashoffset: 0; }
 }
+
+/* ---------- type ---------- */
+body { font-family: var(--sans); font-optical-sizing: auto; letter-spacing: -0.005em; }
+h1, h2, h3, .brand, .stat b, .section-title, .t-name {
+  font-family: var(--display);
+  font-variation-settings: 'SOFT' 50, 'WONK' 1;
+  font-optical-sizing: auto;
+}
+h1, .hero h1, .page-head h1, .lesson-head h1 { font-weight: 700; letter-spacing: -0.03em; }
+.hero h1 { font-weight: 650; font-size: clamp(38px, 6vw, 66px); line-height: 1.02; }
+.grad, .brand b { font-style: italic; font-variation-settings: 'SOFT' 100, 'WONK' 1; }
+h4, .alg-head h4, .feature h4 { font-family: var(--sans); font-weight: 700; letter-spacing: -0.01em; }
+.stat b { font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
+.section-title { font-weight: 600; font-style: italic; }
+.marquee-track span { font-family: var(--display); font-style: italic; font-weight: 700; text-transform: none; font-variation-settings: 'SOFT' 100, 'WONK' 1; letter-spacing: -0.02em; }
+.marquee.slim .marquee-track span { font-family: var(--sans); font-style: normal; text-transform: uppercase; }
+.marquee.alt .marquee-track span { font-family: var(--mono); font-style: normal; font-weight: 450; font-variation-settings: normal; }
+code.alg, .alg-text, .alg-line, .history, .move-btn, .scramble, .alg-alt, #list .t, #list .scr { font-variation-settings: 'wdth' 85; }
+.time { font-family: var(--mono); font-weight: 600; font-variation-settings: 'wdth' 100; letter-spacing: -0.05em; }
+.eyebrow, .level { font-family: var(--mono); font-weight: 500; letter-spacing: 0.04em; font-size: 11px; }
+.btn { font-family: var(--sans); font-weight: 650; }
+.lesson-body { font-size: 17.5px; line-height: 1.65; }

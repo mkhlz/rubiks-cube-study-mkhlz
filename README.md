@@ -85,6 +85,8 @@ These open-source projects were looked at while planning this one. No code was c
 - [ligangwang/rubikscube](https://github.com/ligangwang/rubikscube): 3D cube with a beginner method.
 - [Fridrich Trainer](https://github.com/Darguima/FridrichTrainer): CFOP trainer app.
 
+Typefaces (all [SIL Open Font License](https://openfontlicense.org), self-hosted via Fontsource): [Fraunces](https://github.com/undercasetype/Fraunces) by Undercase Type, [Bricolage Grotesque](https://github.com/ateliertriay/bricolage) by Mathieu Triay, and [Martian Mono](https://github.com/evilmartians/mono) by Evil Martians.
+
 The OLL and PLL algorithms are standard community algorithms used across the speedcubing community; case nicknames follow common usage. Scrambles are random-move scrambles, not WCA random-state scrambles.
 
 ## License

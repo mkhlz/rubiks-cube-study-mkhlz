@@ -1,3 +1,7 @@
+import '@fontsource-variable/fraunces/full.css';
+import '@fontsource-variable/fraunces/full-italic.css';
+import '@fontsource-variable/bricolage-grotesque/index.css';
+import '@fontsource-variable/martian-mono/standard.css';
 import './style.css';
 import { closeModal, disposeCubes, esc } from './ui';
 import { homeView, marquee } from './views/home';
