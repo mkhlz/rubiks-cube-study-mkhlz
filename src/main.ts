@@ -1,5 +1,5 @@
-import '@fontsource-variable/fraunces/full.css';
-import '@fontsource-variable/fraunces/full-italic.css';
+import '@fontsource/instrument-serif/400.css';
+import '@fontsource/instrument-serif/400-italic.css';
 import '@fontsource-variable/bricolage-grotesque/index.css';
 import '@fontsource-variable/martian-mono/standard.css';
 import './style.css';

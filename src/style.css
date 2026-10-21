@@ -13,7 +13,7 @@
   --shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 8px 24px rgba(16, 24, 40, 0.06);
   --radius: 14px;
   --stage: radial-gradient(circle at 50% 40%, #ffffff 0%, #e7eaf3 75%);
-  --display: 'Fraunces Variable', 'Iowan Old Style', Georgia, serif;
+  --display: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
   --sans: 'Bricolage Grotesque Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --mono: 'Martian Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace;
   color-scheme: light;
@@ -485,20 +485,29 @@ code.alg, .alg-text { border: 1.5px solid var(--line); background: var(--bg-2); 
 
 /* ---------- type ---------- */
 body { font-family: var(--sans); font-optical-sizing: auto; letter-spacing: -0.005em; }
-h1, h2, h3, .brand, .stat b, .section-title, .t-name {
+/* Instrument Serif has a single weight: always 400, never synthesised bold. */
+h1, h2, h3, .brand, .section-title, .t-name {
   font-family: var(--display);
-  font-variation-settings: 'SOFT' 50, 'WONK' 1;
-  font-optical-sizing: auto;
+  font-weight: 400;
+  font-synthesis: none;
+  letter-spacing: -0.01em;
 }
-h1, .hero h1, .page-head h1, .lesson-head h1 { font-weight: 700; letter-spacing: -0.03em; }
-.hero h1 { font-weight: 650; font-size: clamp(38px, 6vw, 66px); line-height: 1.02; }
-.grad, .brand b { font-style: italic; font-variation-settings: 'SOFT' 100, 'WONK' 1; }
+h1, .hero h1, .page-head h1, .lesson-head h1 { font-weight: 400; letter-spacing: -0.015em; line-height: 1.02; }
+.hero h1 { font-size: clamp(44px, 7vw, 80px); line-height: 0.98; }
+.page-head h1 { font-size: clamp(36px, 5vw, 52px); }
+.lesson-head h1 { font-size: clamp(36px, 5.4vw, 56px); }
+h2 { font-size: 1.6em; }
+h3 { font-size: 1.35em; }
+.grad, .brand b { font-style: italic; font-weight: 400; }
+.brand { font-size: 22px; }
 h4, .alg-head h4, .feature h4 { font-family: var(--sans); font-weight: 700; letter-spacing: -0.01em; }
-.stat b { font-weight: 600; font-variant-numeric: lining-nums tabular-nums; }
-.section-title { font-weight: 600; font-style: italic; }
-.marquee-track span { font-family: var(--display); font-style: italic; font-weight: 700; text-transform: none; font-variation-settings: 'SOFT' 100, 'WONK' 1; letter-spacing: -0.02em; }
-.marquee.slim .marquee-track span { font-family: var(--sans); font-style: normal; text-transform: uppercase; }
-.marquee.alt .marquee-track span { font-family: var(--mono); font-style: normal; font-weight: 450; font-variation-settings: normal; }
+.stat b { font-family: var(--mono); font-weight: 600; font-size: 22px; font-variant-numeric: tabular-nums; }
+.section-title { font-style: italic; font-size: 28px; padding: 2px 14px 4px; }
+.track-head h2 { font-size: 34px; }
+.path-card h3 { font-size: 24px; }
+.marquee-track span { font-family: var(--display); font-style: italic; font-weight: 400; text-transform: none; letter-spacing: -0.01em; font-size: clamp(24px, 3.4vw, 40px); padding-block: 6px; }
+.marquee.slim .marquee-track span { font-family: var(--sans); font-style: normal; font-weight: 700; text-transform: uppercase; font-size: 13px; padding-block: 8px; }
+.marquee.alt .marquee-track span { font-family: var(--mono); font-style: normal; font-weight: 450; font-size: clamp(15px, 2vw, 22px); padding-block: 12px; }
 code.alg, .alg-text, .alg-line, .history, .move-btn, .scramble, .alg-alt, #list .t, #list .scr { font-variation-settings: 'wdth' 85; }
 .time { font-family: var(--mono); font-weight: 600; font-variation-settings: 'wdth' 100; letter-spacing: -0.05em; }
 .eyebrow, .level { font-family: var(--mono); font-weight: 500; letter-spacing: 0.04em; font-size: 11px; }
