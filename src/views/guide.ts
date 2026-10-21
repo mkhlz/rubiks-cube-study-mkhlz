@@ -7,6 +7,7 @@
 import { CubeView } from '../cube/renderer';
 import { invertToken, isSolved, tokenize, Vec3 } from '../cube/engine';
 import { solve, SolvePlan, SolveStep } from '../cube/solver';
+import { fastPlan, solveFast } from '../cube/fast';
 import { esc } from '../ui';
 
 interface FlatStep {
@@ -27,6 +28,9 @@ export function mountGuide(panel: HTMLElement, view: CubeView, hooks: { onChange
   let working = false;
   let stale = false;
   let focusOn = true;
+  let mode: 'beginner' | 'fast' = 'beginner';
+  let compareTimer = 0;
+  let thinking = false;
 
   const tokens = (st: FlatStep) => tokenize(st.step.moves);
 
@@ -42,12 +46,42 @@ export function mountGuide(panel: HTMLElement, view: CubeView, hooks: { onChange
 
   const idle = () => {
     panel.innerHTML = `
-      <h3>🧭 Guided solve</h3>
-      <p class="hint">Stuck? I'll walk you through solving <b>this</b> cube with the beginner method from the course, one step at a time, and explain every move.</p>
+      <h3>🧭 Solve it for me</h3>
+      <div class="seg" role="radiogroup" aria-label="Solving method">
+        <button role="radio" aria-checked="${mode === 'beginner'}" class="${mode === 'beginner' ? 'on' : ''}" data-mode="beginner"><b>Beginner method</b><small>Explained step by step, the way the course teaches it</small></button>
+        <button role="radio" aria-checked="${mode === 'fast'}" class="${mode === 'fast' ? 'on' : ''}" data-mode="fast"><b>Fastest solution</b><small>Computer two-phase search, ~20 moves</small></button>
+      </div>
       <div class="row-btns">
-        <button class="btn" data-g="start">Guide me step by step</button>
-        <button class="btn ghost" data-g="auto">Auto-solve ▶</button>
-      </div>`;
+        <button class="btn" data-g="start" ${thinking ? 'disabled' : ''}>${thinking ? 'Thinking…' : 'Guide me step by step'}</button>
+        <button class="btn ghost" data-g="auto" ${thinking ? 'disabled' : ''}>Auto-solve ▶</button>
+      </div>
+      <div class="compare" id="compare"></div>`;
+    scheduleCompare();
+  };
+
+  /** "This cube: beginner 152 moves vs computer 19" (recomputed after moves). */
+  const scheduleCompare = () => {
+    clearTimeout(compareTimer);
+    compareTimer = window.setTimeout(async () => {
+      const box = panel.querySelector<HTMLElement>('#compare');
+      if (!box || plan) return;
+      if (isSolved(view.state)) {
+        box.innerHTML = '<span class="hint">Scramble the cube to compare methods on it.</span>';
+        return;
+      }
+      try {
+        const beginner = solve(view.state).moveCount;
+        const fast = (await solveFast(view.state, false)).moves.length;
+        if (plan || !panel.querySelector('#compare')) return;
+        const max = Math.max(beginner, fast);
+        box.innerHTML = `<p class="hint">On <b>this</b> cube:</p>
+          <div class="cmp-row"><span>Beginner</span><i style="width:${(beginner / max) * 100}%"></i><b>${beginner}</b></div>
+          <div class="cmp-row fast"><span>Computer</span><i style="width:${(fast / max) * 100}%"></i><b>${fast}</b></div>
+          <p class="hint small">Full CFOP would be around 55–60. <a href="#/theory#methods">Why the difference?</a></p>`;
+      } catch (err) {
+        box.innerHTML = `<p class="hint">${esc((err as Error).message)}</p>`;
+      }
+    }, 350);
   };
 
   /** Move chips; identical consecutive parts (e.g. a repeated trigger) collapse into one "×n" chip. */
@@ -89,7 +123,7 @@ export function mountGuide(panel: HTMLElement, view: CubeView, hooks: { onChange
     const movesLeft = flat.slice(si).reduce((n, f, k) => n + tokens(f).length - (k === 0 ? mi : 0), 0);
     panel.innerHTML = `
       <div class="guide-head">
-        <h3>🧭 Guided solve</h3>
+        <h3>🧭 ${mode === 'fast' ? 'Fastest solution' : 'Guided solve'}</h3>
         <button class="icon-btn" data-g="exit" aria-label="Close guide" title="Close guide">✕</button>
       </div>
       <ol class="stage-dots" aria-label="Stages">
@@ -117,9 +151,21 @@ export function mountGuide(panel: HTMLElement, view: CubeView, hooks: { onChange
     applyFocus();
   };
 
-  const start = (autoRun = false) => {
-    if (view.busy) return;
-    plan = solve(view.state);
+  const start = async (autoRun = false) => {
+    if (view.busy || thinking) return;
+    if (mode === 'fast') {
+      thinking = true;
+      idle();
+      try {
+        plan = await fastPlan(view.state, solve(view.state).moveCount);
+      } catch (err) {
+        thinking = false;
+        idle();
+        panel.querySelector('#compare')!.innerHTML = `<p class="warn">${esc((err as Error).message)}</p>`;
+        return;
+      }
+      thinking = false;
+    } else plan = solve(view.state);
     flat = plan.stages.flatMap((s, stage) => s.steps.map((step, indexInStage) => ({ stage, step, indexInStage })));
     si = 0;
     mi = 0;
@@ -208,6 +254,12 @@ export function mountGuide(panel: HTMLElement, view: CubeView, hooks: { onChange
   };
 
   panel.addEventListener('click', (e) => {
+    const modeBtn = (e.target as HTMLElement).closest<HTMLElement>('[data-mode]');
+    if (modeBtn && !plan) {
+      mode = modeBtn.dataset.mode as 'beginner' | 'fast';
+      idle();
+      return;
+    }
     const g = (e.target as HTMLElement).closest<HTMLElement>('[data-g]')?.dataset.g;
     if (!g) return;
     if (g === 'start') start(false);
@@ -236,7 +288,11 @@ export function mountGuide(panel: HTMLElement, view: CubeView, hooks: { onChange
   return {
     /** Called for every finished move; user moves are checked against the plan. */
     notify(move: string, source: 'user' | 'auto') {
-      if (!plan || source !== 'user' || working) return;
+      if (!plan) {
+        scheduleCompare();
+        return;
+      }
+      if (source !== 'user' || working) return;
       if (si >= flat.length) return;
       // Skip over note-only steps.
       while (si < flat.length && !tokens(flat[si]).length) si++;

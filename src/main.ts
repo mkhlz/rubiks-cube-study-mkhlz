@@ -11,6 +11,7 @@ import { algsView } from './views/algs';
 import { trainerView } from './views/trainer';
 import { timerView } from './views/timer';
 import { plansView } from './views/plans';
+import { theoryView } from './views/theory';
 import { data, exportData, importData, resetAll, save } from './store';
 
 type View = (root: HTMLElement, arg?: string) => void | (() => void);
@@ -23,11 +24,13 @@ const ROUTES: Record<string, View> = {
   trainer: trainerView,
   timer: timerView,
   plans: plansView,
+  theory: theoryView,
   settings: settingsView,
 };
 
 const NAV = [
   ['learn', 'Course'],
+  ['theory', 'Theory'],
   ['play', 'Playground'],
   ['algs', 'Algorithms'],
   ['trainer', 'Trainer'],

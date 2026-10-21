@@ -58,10 +58,10 @@ export function homeView(root: HTMLElement) {
   <section class="features">
     <a class="feature" href="#/play"><span>🧊</span><h4>Playground</h4><p>Drag layers, use the keyboard, scramble, undo and type in any algorithm.</p></a>
     <a class="feature" href="#/algs"><span>📚</span><h4>Algorithm library</h4><p>${totalAlgs} algorithms, each verified by tests, with diagrams and a 3D preview.</p></a>
-    <a class="feature" href="#/trainer"><span>🧠</span><h4>Trainer</h4><p>Spaced-repetition flashcards for the cases you are learning.</p></a>
+    <a class="feature" href="#/trainer"><span>🃏</span><h4>Trainer</h4><p>Spaced-repetition flashcards for the cases you are learning.</p></a>
     <a class="feature" href="#/timer"><span>⏱️</span><h4>Timer</h4><p>WCA-style inspection, ao5 / ao12 / ao100 and session history.</p></a>
     <a class="feature" href="#/plans"><span>🗓️</span><h4>Study plans</h4><p>Week-by-week plans from "never solved" to sub-15.</p></a>
-    <a class="feature" href="#/learn/f-notation"><span>✍️</span><h4>Notation</h4><p>Every move explained with a live cube you can press.</p></a>
+    <a class="feature" href="#/theory"><span>🧠</span><h4>Theory</h4><p>Invariants, commutators, methods compared and how computers solve it in 20 moves.</p></a>
   </section>`;
 
   const host = root.querySelector<HTMLElement>('#hero-cube')!;

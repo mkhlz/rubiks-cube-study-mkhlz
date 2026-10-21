@@ -28,8 +28,11 @@ export function learnIndexView(root: HTMLElement) {
   if (hash) root.querySelector(`#${CSS.escape(hash)}`)?.scrollIntoView();
 }
 
-function renderSection(host: HTMLElement, s: Section, lessonId: string, i: number) {
+export function renderSection(host: HTMLElement, s: Section, lessonId: string, i: number) {
   switch (s.t) {
+    case 'figure':
+      host.appendChild(el('figure', 'figure', `${s.html}<figcaption>${s.caption}</figcaption>`));
+      break;
     case 'p':
       host.appendChild(el('p', '', s.html));
       break;

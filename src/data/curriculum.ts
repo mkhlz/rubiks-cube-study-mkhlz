@@ -20,7 +20,8 @@ export type Section =
     }
   | { t: 'notation'; moves: string[] }
   | { t: 'algs'; keys: string[] }
-  | { t: 'quiz'; q: string; options: string[]; answer: number; explain: string };
+  | { t: 'quiz'; q: string; options: string[]; answer: number; explain: string }
+  | { t: 'figure'; html: string; caption: string };
 
 export interface Lesson {
   id: string;

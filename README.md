@@ -9,7 +9,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?logo=typescript&logoColor=white)
 ![Three.js](https://img.shields.io/badge/Three.js-r186-000?logo=three.js)
 ![Vite](https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-152%20passing-22c55e)
+![Tests](https://img.shields.io/badge/tests-162%20passing-22c55e)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 </div>
@@ -22,7 +22,8 @@ CubeCraft Academy is a free, open-source study app for the 3x3 Rubik's Cube. It 
 |---|---|
 | 🎓 **28-lesson course** | Five tracks: Foundations → Beginner method → 4-look CFOP → Advanced CFOP → Pro. Each lesson has live 3D demos you can step through, quizzes and tips. |
 | 🧊 **Playable 3D cube** | Drag a layer to turn it, orbit with the mouse or touch, use the keyboard (`R U R' U'` = <kbd>r</kbd> <kbd>u</kbd> <kbd>⇧R</kbd> <kbd>⇧U</kbd>), scramble, undo, rewind, type any algorithm, or load "the case this algorithm solves". Supports face, slice (M E S), wide (r, Rw…) moves and rotations (x y z). |
-| 🧭 **Guided auto-solve** | In the Playground, "Guide me" solves *your* cube with the beginner method from the course: each step is explained in plain English, the pieces involved are highlighted, and you can watch it, step back, auto-solve, or do the moves yourself while it follows along. |
+| 🧭 **Two auto-solvers** | In the Playground, pick **Beginner method** (solves *your* cube with the course's method: every step explained in plain English, pieces highlighted, watch it, step back, or do the moves yourself while it follows along) or **Fastest solution** (Kociemba two-phase search via [min2phase.js](https://github.com/cs0x7f/min2phase.js), ~19–20 moves, phases shown when they split cleanly). A live bar compares both on the current cube. |
+| 🧠 **Theory** | Eight illustrated, opinionated chapters: pieces and invariants, notation and move metrics, triggers / conjugates / commutators, OLL vs PLL, methods compared, God's number and how computers solve it, speed vs move count, and a glossary. Every number is checked by tests. |
 | 📚 **142 algorithms** | Beginner (7), 2-look OLL (10), 2-look PLL (6), all **41 F2L**, all **57 OLL** and all **21 PLL** cases, with recognition tips and auto-generated case diagrams. Track each as new / learning / learned. |
 | 🧠 **Spaced-repetition trainer** | Flashcards for any set: see a case, recall, reveal (with a 3D replay), grade Again / Hard / Good / Easy. Leitner boxes bring weak cases back sooner. |
 | ⏱️ **Speedsolving timer** | Hold-to-arm spacebar or touch timer, optional 15 s WCA-style inspection (with +2 / DNF), scrambles with an unfolded preview, best, ao5, ao12, ao100 and best ao5. |
@@ -78,8 +79,9 @@ scripts/       F2L generator
 
 ## Prior art & credits
 
-These open-source projects were looked at while planning this one. No code was copied; the cube engine, renderer and content were written for this project.
+These open-source projects were looked at while planning this one. Apart from min2phase.js (a dependency), no code was copied; the cube engine, renderer and content were written for this project.
 
+- [min2phase.js](https://github.com/cs0x7f/min2phase.js) by Chen Shuang (cs0x7f), MIT: the two-phase solver behind "Fastest solution". Used as a dependency.
 - [cubing.js](https://js.cubing.net/cubing/): the reference twisty-puzzle library (`<twisty-player>`) and alg notation.
 - [CubeCoach](https://github.com/kameron-ctrl/CubeCoach): Three.js cube + coaching + OLL/PLL flashcards.
 - [Cubedex](https://github.com/poliva/cubedex): offline OLL/PLL trainer for smart cubes.
