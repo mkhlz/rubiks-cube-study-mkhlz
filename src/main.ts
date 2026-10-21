@@ -1,6 +1,6 @@
 import './style.css';
 import { closeModal, disposeCubes, esc } from './ui';
-import { homeView } from './views/home';
+import { homeView, marquee } from './views/home';
 import { learnIndexView, lessonView } from './views/learn';
 import { playView } from './views/play';
 import { algsView } from './views/algs';
@@ -39,6 +39,7 @@ app.innerHTML = `
     <nav class="mainnav">${NAV.map(([k, v]) => `<a href="#/${k}" data-r="${k}">${v}</a>`).join('')}<a href="#/settings" data-r="settings" aria-label="Settings">⚙</a></nav>
   </header>
   <main id="view"></main>
+  ${marquee(['Centres never move', 'Cross on the bottom', "Look ahead, don't rush", '57 OLL · 21 PLL · 41 F2L', 'Slow is smooth, smooth is fast', 'Inspection: 15 seconds', 'Headlights at the back'], 'slim')}
   <footer class="foot">CubeCraft Academy · open source · progress is stored only in your browser · <a href="https://github.com/mkhlz/rubiks-cube-study-mkhlz">GitHub</a></footer>`;
 
 const menuBtn = app.querySelector<HTMLButtonElement>('.menu-btn')!;

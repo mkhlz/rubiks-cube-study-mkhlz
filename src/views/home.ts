@@ -19,7 +19,7 @@ export function homeView(root: HTMLElement) {
   <section class="hero">
     <div class="hero-text">
       <span class="eyebrow">Rubik's Cube study app</span>
-      <h1>From your first twist to <span class="grad">speedcuber</span>.</h1>
+      <h1>From your first twist to <span class="scribble"><span class="grad">speedcuber</span>.<svg viewBox="0 0 300 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 16 C 60 6, 110 22, 160 12 S 250 6, 296 14"/></svg></span></h1>
       <p class="lead">A full course with a real 3D cube: learn notation, solve it for the first time with the beginner method, then climb through CFOP, all 41 F2L, 57 OLL and 21 PLL cases with a spaced-repetition trainer, timer and week-by-week study plans.</p>
       <div class="hero-cta">
         <a class="btn lg" href="#/learn/${next ? next.id : 'f-anatomy'}">${done ? 'Continue: ' + esc(next?.title ?? 'Review') : 'Start lesson 1'} →</a>
@@ -28,6 +28,9 @@ export function homeView(root: HTMLElement) {
     </div>
     <div class="hero-cube" id="hero-cube" aria-label="Animated 3D cube"></div>
   </section>
+
+  ${marquee(['Learn it', 'Solve it', 'Drill it', 'Time it', 'Beat your PB', 'Zero to sub-20'], '')}
+  ${marquee(["R U R' U'", "R U R' U R U2 R'", "F R U R' U' F'", "M2 U M2 U2 M2 U M2", "R U R' U' R' F R2 U' R' U' R U R' F'", "r U R' U' M2 U R U' R' U' M'", 'x2 y', "R' F R' B2 R F' R' B2 R2"], 'alt')}
 
   <section class="stats-row">
     <div class="stat"><b>${done}/${ALL_LESSONS.length}</b><span>lessons done</span></div>
@@ -78,6 +81,12 @@ export function homeView(root: HTMLElement) {
   return () => {
     alive = false;
   };
+}
+
+/** Infinite ticker; the item list is doubled so the loop is seamless. */
+export function marquee(items: string[], cls: string) {
+  const row = items.map((t) => `<span>${esc(t)}</span>`).join('');
+  return `<div class="marquee ${cls}" aria-hidden="true"><div class="marquee-track">${row}${row}${row}${row}</div></div>`;
 }
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
