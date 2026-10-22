@@ -21,7 +21,22 @@ export type Section =
   | { t: 'notation'; moves: string[] }
   | { t: 'algs'; keys: string[] }
   | { t: 'quiz'; q: string; options: string[]; answer: number; explain: string }
-  | { t: 'figure'; html: string; caption: string };
+  | { t: 'figure'; html: string; caption: string }
+  | { t: 'photo'; photo: Photo; caption: string; float?: 'left' | 'right'; wide?: boolean }
+  | { t: 'table'; head: string[]; rows: string[][]; caption?: string }
+  | { t: 'timeline'; items: [string, string][] }
+  | { t: 'facts'; items: [string, string][] };
+
+/** A self-hosted photo from Wikimedia Commons, with the credit its licence requires. */
+export interface Photo {
+  file: string;
+  w: number;
+  h: number;
+  alt: string;
+  author: string;
+  license: string;
+  source: string;
+}
 
 export interface Lesson {
   id: string;

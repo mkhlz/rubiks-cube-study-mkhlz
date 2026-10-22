@@ -33,6 +33,35 @@ export function renderSection(host: HTMLElement, s: Section, lessonId: string, i
     case 'figure':
       host.appendChild(el('figure', 'figure', `${s.html}<figcaption>${s.caption}</figcaption>`));
       break;
+    case 'photo': {
+      const p = s.photo;
+      host.appendChild(
+        el(
+          'figure',
+          `photo${s.float ? ` float-${s.float}` : ''}${s.wide ? ' wide' : ''}`,
+          `<img src="${import.meta.env.BASE_URL}photos/${p.file}" width="${p.w}" height="${p.h}" alt="${esc(p.alt)}" loading="lazy" decoding="async">
+          <figcaption>${s.caption} <small class="credit">Photo: ${esc(p.author)} · <a href="${p.source}" target="_blank" rel="noopener">${esc(p.license)}</a>, via Wikimedia Commons</small></figcaption>`,
+        ),
+      );
+      break;
+    }
+    case 'table':
+      host.appendChild(
+        el(
+          'div',
+          'table-wrap',
+          `<table class="data-table">${s.caption ? `<caption>${s.caption}</caption>` : ''}<thead><tr>${s.head.map((h) => `<th>${h}</th>`).join('')}</tr></thead><tbody>${s.rows
+            .map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join('')}</tr>`)
+            .join('')}</tbody></table>`,
+        ),
+      );
+      break;
+    case 'timeline':
+      host.appendChild(el('ol', 'timeline', s.items.map(([when, what]) => `<li><span class="when">${when}</span><div>${what}</div></li>`).join('')));
+      break;
+    case 'facts':
+      host.appendChild(el('div', 'facts', s.items.map(([big, label]) => `<div class="fact"><b>${big}</b><span>${label}</span></div>`).join('')));
+      break;
     case 'p':
       host.appendChild(el('p', '', s.html));
       break;

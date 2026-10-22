@@ -4,7 +4,12 @@ import '@fontsource-variable/bricolage-grotesque/index.css';
 import '@fontsource-variable/martian-mono/standard.css';
 import './style.css';
 import { closeModal, disposeCubes, esc } from './ui';
-import { homeView, marquee } from './views/home';
+import { homeView } from './views/home';
+import { puzzlesView } from './views/puzzles';
+import { ALL_LESSONS } from './data/curriculum';
+import { SETS, algKey } from './data/algs';
+import { PUZZLES } from './data/puzzles';
+import { best, formatTime } from './stats';
 import { learnIndexView, lessonView } from './views/learn';
 import { playView } from './views/play';
 import { algsView } from './views/algs';
@@ -12,7 +17,7 @@ import { trainerView } from './views/trainer';
 import { timerView } from './views/timer';
 import { plansView } from './views/plans';
 import { theoryView } from './views/theory';
-import { data, exportData, importData, resetAll, save } from './store';
+import { data, exportData, importData, onChange, resetAll, save } from './store';
 
 type View = (root: HTMLElement, arg?: string) => void | (() => void);
 
@@ -22,6 +27,7 @@ const ROUTES: Record<string, View> = {
   play: playView,
   algs: algsView,
   trainer: trainerView,
+  puzzles: puzzlesView,
   timer: timerView,
   plans: plansView,
   theory: theoryView,
@@ -34,8 +40,9 @@ const NAV = [
   ['play', 'Playground'],
   ['algs', 'Algorithms'],
   ['trainer', 'Trainer'],
+  ['puzzles', 'Puzzles'],
   ['timer', 'Timer'],
-  ['plans', 'Study plans'],
+  ['plans', 'Plans'],
 ];
 
 const app = document.getElementById('app')!;
@@ -46,8 +53,48 @@ app.innerHTML = `
     <nav class="mainnav">${NAV.map(([k, v]) => `<a href="#/${k}" data-r="${k}">${v}</a>`).join('')}<a href="#/settings" data-r="settings" aria-label="Settings">⚙</a></nav>
   </header>
   <main id="view"></main>
-  ${marquee(['Centres never move', 'Cross on the bottom', "Look ahead, don't rush", '57 OLL · 21 PLL · 41 F2L', 'Slow is smooth, smooth is fast', 'Inspection: 15 seconds', 'Headlights at the back'], 'slim')}
-  <footer class="foot">CubeCraft Academy · open source · progress is stored only in your browser · <a href="https://github.com/mkhlz/rubiks-cube-study-mkhlz">GitHub</a></footer>`;
+  <footer class="site-foot"></footer>`;
+
+const FOOT_COLS: [string, [string, string][]][] = [
+  ['Learn', [['learn', 'Course'], ['theory', 'Theory'], ['algs', 'Algorithms'], ['plans', 'Study plans']]],
+  ['Practise', [['play', 'Playground'], ['trainer', 'Trainer'], ['puzzles', 'Puzzles'], ['timer', 'Timer']]],
+];
+
+/** Footer with live progress; re-rendered on every route so the numbers stay current. */
+function renderFooter() {
+  const lessons = ALL_LESSONS.filter((l) => data.lessons[l.id]).length;
+  const algs = SETS.flatMap((s) => s.algs);
+  const learned = algs.filter((a) => data.algs[algKey(a)] === 'learned').length;
+  const solved = PUZZLES.filter((p) => data.puzzles[p.id]).length;
+  const pb = best(data.solves);
+  const stat = (v: string, label: string, href: string) => `<a class="foot-stat" href="#/${href}"><b>${v}</b><span>${label}</span></a>`;
+  app.querySelector('.site-foot')!.innerHTML = `
+    <div class="foot-stickers" aria-hidden="true">${'<i></i>'.repeat(6)}</div>
+    <div class="foot-inner">
+      <div class="foot-brand">
+        <a class="brand" href="#/"><span class="logo" aria-hidden="true">${'<i></i>'.repeat(9)}</span>CubeCraft <b>Academy</b></a>
+        <p class="foot-tag">Forty-three quintillion positions. <em>One of them is solved.</em></p>
+        <p class="foot-note">A free, open-source study app. No accounts, no tracking: your progress lives only in this browser.</p>
+      </div>
+      ${FOOT_COLS.map(([h, links]) => `<nav class="foot-col" aria-label="${h}"><h4>${h}</h4><ul>${links.map(([k, v]) => `<li><a href="#/${k}">${v}</a></li>`).join('')}</ul></nav>`).join('')}
+      <div class="foot-col foot-progress"><h4>Your progress</h4>
+        <div class="foot-stats">
+          ${stat(`${lessons}<small>/${ALL_LESSONS.length}</small>`, 'lessons', 'learn')}
+          ${stat(`${learned}<small>/${algs.length}</small>`, 'algorithms', 'algs')}
+          ${stat(`${solved}<small>/${PUZZLES.length}</small>`, 'puzzles', 'puzzles')}
+          ${stat(pb === null ? '—' : formatTime(pb), 'best single', 'timer')}
+        </div>
+      </div>
+    </div>
+    <div class="foot-bar">
+      <span>MIT licence · photos from Wikimedia Commons, <a href="#/theory#sources">credited in Theory</a></span>
+      <span class="foot-links"><a href="#/settings">Settings &amp; backup</a><a href="https://github.com/mkhlz/rubiks-cube-study-mkhlz" target="_blank" rel="noopener">GitHub ↗</a><button class="foot-top" type="button">Back to top ↑</button></span>
+    </div>`;
+}
+onChange(renderFooter);
+app.querySelector('.site-foot')!.addEventListener('click', (e) => {
+  if ((e.target as HTMLElement).closest('.foot-top')) window.scrollTo({ top: 0, behavior: 'smooth' });
+});
 
 const menuBtn = app.querySelector<HTMLButtonElement>('.menu-btn')!;
 menuBtn.addEventListener('click', () => {
@@ -69,6 +116,7 @@ function route() {
   document.getElementById('view')!.replaceChildren(fresh);
   cleanup = view(fresh, arg ? decodeURIComponent(arg) : undefined);
   app.classList.remove('nav-open');
+  renderFooter();
   app.querySelectorAll<HTMLAnchorElement>('.mainnav a').forEach((a) => a.classList.toggle('active', a.dataset.r === name));
   const title = NAV.find(([k]) => k === name)?.[1];
   document.title = title ? `${title} · CubeCraft Academy` : 'CubeCraft Academy';

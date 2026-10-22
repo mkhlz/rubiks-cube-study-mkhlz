@@ -11,6 +11,14 @@ export interface Solve {
   penalty?: '+2' | 'DNF';
 }
 
+export interface PuzzleResult {
+  /** Fewest moves used in a successful attempt. */
+  best: number;
+  /** Most stars earned (hints cap it). */
+  stars: number;
+  at: number;
+}
+
 export interface SrsCard {
   box: number;
   due: number;
@@ -24,6 +32,9 @@ interface Data {
   solves: Solve[];
   plans: Record<string, Record<string, boolean>>;
   quiz: Record<string, boolean>;
+  puzzles: Record<string, PuzzleResult>;
+  /** Trainer: recent recognition times (ms) per card, newest last. */
+  recog: Record<string, number[]>;
   settings: { speed: number; inspection: boolean; theme: 'auto' | 'light' | 'dark' };
 }
 
@@ -36,6 +47,8 @@ const defaults = (): Data => ({
   solves: [],
   plans: {},
   quiz: {},
+  puzzles: {},
+  recog: {},
   settings: { speed: 220, inspection: true, theme: 'auto' },
 });
 

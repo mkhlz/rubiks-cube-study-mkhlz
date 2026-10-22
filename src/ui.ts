@@ -147,8 +147,8 @@ export function cubePlayer(host: HTMLElement, o: PlayerOptions) {
   return { view, reset };
 }
 
-export function diagramFor(a: Alg, size = 110) {
-  const s = applyAlg(solvedState(), invertAlg(a.alg));
+/** Case diagram for an algorithm; pass `s` to draw a variant of the case (e.g. with a pre-AUF). */
+export function diagramFor(a: Alg, size = 110, s: CubeState = applyAlg(solvedState(), invertAlg(a.alg))) {
   if (a.set === 'F2L') return isoDiagram(s, size, MASKS.f2l);
   if (a.set === 'BEG') {
     if (a.group === 'First layer') return isoDiagram(s, size, MASKS.firstLayer);
